@@ -18,12 +18,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::group(['prefix' => 'admin/news', 'name' => 'admin.'], function () {
-  Route::get('/',  [\App\Http\Controllers\Admin\NewsController::class, 'index'])
-	->name('news');
-  Route::get('/create',  [\App\Http\Controllers\Admin\NewsController::class, 'create'])
-	->name('news.create');
-  Route::get('/{slug}/{id}/edit',  [\App\Http\Controllers\Admin\NewsController::class, 'edit'])
+Route::group(['prefix' => 'admin'], function () {
+  Route::get('/', [\App\Http\Controllers\Admin\IndexController::class, 'index'])->name('admin.dashboard');
+  Route::get('/news',  [\App\Http\Controllers\Admin\NewsController::class, 'index'])
+	->name('admin.news');
+  Route::get('/news/create',  [\App\Http\Controllers\Admin\NewsController::class, 'create'])
+	->name('admin.news.create');
+  Route::get('/news/{slug}/{id}/edit',  [\App\Http\Controllers\Admin\NewsController::class, 'edit'])
 	->where(['slug' => '\w+', 'id' => '\d+'])
-	->name('news.edit');
+	->name('admin.news.edit');
 });

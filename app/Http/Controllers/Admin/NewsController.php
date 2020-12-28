@@ -8,11 +8,15 @@ use Illuminate\Http\Request;
 class NewsController extends Controller
 {
 	/**
-	 * @return string
+	 *
 	 */
-	public function index(): string
+	public function index()
 	{
-		return "Список новостей";
+		$status = 1;
+		return view('admin.news.index', [
+			'news' => $this->news,
+			'status'   => $status
+		]);
 	}
 
 	/**
@@ -20,21 +24,15 @@ class NewsController extends Controller
 	 */
 	public function create(): string
 	{
-		$id = mt_rand(1,100);
-		$slug = \Str::slug('Просто текст', "_");
-
-		return redirect()->route('news.edit',  ['slug' => $slug, 'id' => $id]);
+		return view('admin.news.create');
 	}
 
 	/**
-	 * @param string $slug
 	 * @param int $id
 	 * @return string
 	 */
-	public function edit(string $slug, int $id): string
+	public function edit(int $id): string
 	{
-		//$title = "Какойто слаг для сайта";
-		//$slug = \Str::slug($title);
-		return "Редактировать новость Slug {$slug} #ID {$id} <br>" . $slug;
+		return view('admin.news.edit');
 	}
 }

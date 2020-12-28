@@ -9,16 +9,7 @@ use Illuminate\Routing\Controller as BaseController;
 
 class Controller extends BaseController
 {
-	protected $categories = [
-		[
-			'title' => 'category1',
-			'text'  => 'some text'
-		],
-		[
-			'title' => 'category2',
-			'text'  => 'some text2'
-		],
-	];
+
 	protected $news = [
 		[
 			'category_id' => 0,
@@ -26,7 +17,15 @@ class Controller extends BaseController
 		],
 		[
 			'category_id' => 1,
-			'title' => 'title 2'
+			'title' => '<strong>title 2</strong>'
+		],
+		[
+			'category_id' => 0,
+			'title' => 'title 3'
+		],
+		[
+			'category_id' => 1,
+			'title' => '<strong>title 4</strong>'
 		],
 	];
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
