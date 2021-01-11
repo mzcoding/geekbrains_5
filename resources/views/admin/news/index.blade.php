@@ -6,7 +6,7 @@
     <div>
         <h2>Список новостей</h2>
         <br>
-        <a href="{{ route('admin.news.create') }}">Добавить новость</a>
+        <a href="{{ route('news.create') }}">Добавить новость</a>
         <br>
     @forelse($news as $k => $n)
         @if ($loop->last)

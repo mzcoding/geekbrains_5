@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class NewsController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,11 +14,7 @@ class NewsController extends Controller
      */
     public function index()
     {
-		$status = 1;
-		return view('admin.news.index', [
-			'news' => $this->news,
-			'status'   => $status
-		]);
+        //
     }
 
     /**
@@ -28,7 +24,7 @@ class NewsController extends Controller
      */
     public function create()
     {
-		return view('admin.news.create');
+        //
     }
 
     /**
@@ -39,31 +35,7 @@ class NewsController extends Controller
      */
     public function store(Request $request)
     {
-    	$request->validate([
-    		'title' => 'required|string|min:3'
-		]);
-
-        $data = $request->except('_token');
-		$saveFile = function(array $data) {
-			$responseData = [];
-			$fileNews = storage_path('app/news.txt');
-			if(file_exists($fileNews)) {
-				$file = file_get_contents($fileNews);
-				$response = json_decode($file, true);
-			}
-
-
-			$responseData[] = $data;
-			if(isset($response) && !empty($response)) {
-				$r = array_merge($response, $responseData);
-			}else {
-				$r = $responseData;
-			}
-			file_put_contents($fileNews, json_encode($r));
-		};
-
-		$saveFile($data);
-        return redirect()->route('news.index');
+        //
     }
 
     /**
@@ -72,7 +44,7 @@ class NewsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(int $id)
+    public function show($id)
     {
         //
     }
@@ -83,9 +55,9 @@ class NewsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(int $id)
+    public function edit($id)
     {
-		return view('admin.news.edit');
+        //
     }
 
     /**
@@ -95,7 +67,7 @@ class NewsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, int $id)
+    public function update(Request $request, $id)
     {
         //
     }

@@ -8,7 +8,8 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link @if(request()->is('admin/news') || request()->is('admin/news/*')) active @endif" href="{{ route('admin.news') }}">
+                <a class="nav-link @if(request()->is('admin/news') || request()->is('admin/news/*')) active @endif"
+                   href="{{ route('news.index') }}">
                     <span data-feather="file"></span>
                     Новости
                 </a>
