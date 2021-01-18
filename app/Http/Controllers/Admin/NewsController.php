@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
+use App\Models\News;
 use Illuminate\Http\Request;
 
 class NewsController extends Controller
@@ -10,13 +12,16 @@ class NewsController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function index()
     {
 		$status = 1;
+		$news = (new News())->getAllNews();
+
+
 		return view('admin.news.index', [
-			'news' => $this->news,
+			'newsList' => $news,
 			'status'   => $status
 		]);
     }
@@ -28,7 +33,8 @@ class NewsController extends Controller
      */
     public function create()
     {
-		return view('admin.news.create');
+    	$categories = (new Category())->getAllCategories();
+		return view('admin.news.create', ['categories' => $categories]);
     }
 
     /**
@@ -81,11 +87,19 @@ class NewsController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function edit(int $id)
     {
-		return view('admin.news.edit');
+    	$news = (new News())->getNews($id);
+    	if(!$news) {
+    		 return abort(404);
+		}
+		$categories = (new Category())->getAllCategories();
+		return view('admin.news.edit', [
+			'categories' => $categories,
+			'news' => $news
+		]);
     }
 
     /**
