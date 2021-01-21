@@ -10,22 +10,14 @@ class News extends Model
     use HasFactory;
 
     protected $table = "news";
+    protected $primaryKey = "id";
 
-    public function getAllNews(): array
+    protected $fillable = ['category_id', 'title', 'slug', 'image', 'description'];
+   //protected $guarded = ['id'];
+
+	public function category(): \Illuminate\Database\Eloquent\Relations\BelongsTo
 	{
-		 return \DB::table($this->table)
-			 ->join('categories', 'news.category_id', '=', 'categories.id')
-			 /*->where([
-			 	['news.id', '>', 2],
-				['news.slug',  'like', '%pt%']
-			 ])
-			 ->orWhere('news.title', 'like', '%ka%')*/
-			 ->whereNotIn('news.id', [4,5,6,7])
-			 ->select('news.*', 'categories.title as category_title')
-			 ->get()->toArray();
+		return $this->belongsTo(Category::class, 'category_id', 'id');
 	}
-	public function getNews(int $id)
-	{
-		return \DB::table($this->table)->find($id);
-	}
+
 }

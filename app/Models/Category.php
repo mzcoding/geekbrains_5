@@ -11,8 +11,11 @@ class Category extends Model
 
     protected $table = "categories";
 
-    public function getAllCategories(): array
+	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 */
+	public function news(): \Illuminate\Database\Eloquent\Relations\HasMany
 	{
-		return \DB::table($this->table)->select(['id', 'title'])->get()->toArray();
+		return $this->hasMany(News::class, 'category_id', 'id');
 	}
 }

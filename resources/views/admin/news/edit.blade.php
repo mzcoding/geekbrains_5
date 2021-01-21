@@ -8,6 +8,7 @@
         <h2>Редактировать запись</h2>
         <br>
         <form method="post" action="{{ route('news.update', ['news' => $news->id]) }}">
+            @method('put')
             @csrf
             <div class="form-group">
                 <label for="category_id">Категория</label>
