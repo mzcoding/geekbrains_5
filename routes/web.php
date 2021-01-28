@@ -2,6 +2,7 @@
 
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Account\IndexController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,15 +19,37 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::group(['prefix' => 'admin'], function () {
-  Route::get('/', [\App\Http\Controllers\Admin\IndexController::class, 'index'])->name('admin.dashboard');
-  Route::resource('/news', \App\Http\Controllers\Admin\NewsController::class);
+
+
+Route::get('/session', function() {
+	 $user = ['name' => 'Example3'];
+	 session($user);
+	 return redirect('session_result');
+});
+Route::get('session_result', function() {
+	if(session()->has('name')) {
+		//session()->remove('name');
+		dd(session()->get('name'));
+	}
 });
 
-Route::get('/collections', function() {
-	$chars = [1,2,3,4,5,6,7,8,9];
-	$collection = collect($chars);
-	dd($collection->map(function ($int) {
-		  return $int * 3;
-	}));
+
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::group(['middleware' => 'auth'], function() {
+
+	Route::get('/logout', function() {
+		Auth::logout();
+		return redirect()->route('login');
+	})->name('account.logout');
+	Route::get('account', [IndexController::class, 'index'])
+		->name('account');
+
+	Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
+		Route::get('/', [\App\Http\Controllers\Admin\IndexController::class, 'index'])->name('admin.dashboard');
+		Route::resource('/news', \App\Http\Controllers\Admin\NewsController::class);
+	});
 });
