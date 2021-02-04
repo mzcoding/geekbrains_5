@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\UserEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreRequest;
 use App\Http\Requests\UpdateRequest;
 use App\Models\Category;
 use App\Models\News;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
@@ -22,6 +24,8 @@ class NewsController extends Controller
 		$status = 1;
 		$news = News::with('category')->paginate(10);
 
+		$user = User::find(\Auth::id());
+		event(new UserEvent($user));
 
 		return view('admin.news.index', [
 			'newsList' => $news,

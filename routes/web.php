@@ -33,7 +33,9 @@ Route::get('session_result', function() {
 	}
 });
 
-
+Route::get('/demo', function() {
+	dd(app(\App\Service\AuthService::class));
+});
 
 Auth::routes();
 
@@ -53,3 +55,10 @@ Route::group(['middleware' => 'auth'], function() {
 		Route::resource('/news', \App\Http\Controllers\Admin\NewsController::class);
 	});
 });
+
+Route::get('/parser', [\App\Http\Controllers\ParserController::class, 'index']);
+Route::get('/auth/vk/redirect', [\App\Http\Controllers\SocialVkController::class, 'redirect'])
+	->name('vk.redirect');
+Route::get('/auth/vk/callback', [\App\Http\Controllers\SocialVkController::class, 'callback'])
+	->name('vk.callback');
+
