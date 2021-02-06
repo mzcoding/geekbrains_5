@@ -10,6 +10,7 @@ use App\Models\Category;
 use App\Models\News;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
 class NewsController extends Controller
@@ -23,6 +24,8 @@ class NewsController extends Controller
     {
 		$status = 1;
 		$news = News::with('category')->paginate(10);
+
+
 
 		$user = User::find(\Auth::id());
 		event(new UserEvent($user));
@@ -54,6 +57,14 @@ class NewsController extends Controller
     {
     	$data = $request->validated();
     	$data['slug'] = \Str::slug($data['title']);
+    	if($request->hasFile('image')) {
+    		$file = $request->file('image');
+    		$ext = $file->getClientOriginalExtension();
+    		$name = Str::random(8);
+
+    		$path = $file->storeAs('news', $name. "." . $ext);
+    		$data['image'] = $path;
+		}
 
     	//add in db
 		$news = News::create($data);
@@ -71,9 +82,15 @@ class NewsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(int $id)
+    public function show(News $news)
     {
-        //
+    	$key = 'views-' . \Auth::user()->id . "-" . $news->id;
+    	if(!session()->has($key)) {
+    		$news->views = intval($news->views+1);
+    		$news->save();
+    		session([$key => true]);
+		}
+        return view('admin.news.show', ['news' => $news]);
     }
 
     /**

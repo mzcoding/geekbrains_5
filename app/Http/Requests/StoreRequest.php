@@ -26,7 +26,8 @@ class StoreRequest extends FormRequest
         return [
         	'category_id' => ['required'],
 			'title' =>  ['required', 'string', 'min:3'],
-			'description' => ['sometimes']
+			'description' => ['sometimes'],
+			'image' => ['sometimes', 'image:jpg,jpeg,png']
         ];
     }
     public function messages()

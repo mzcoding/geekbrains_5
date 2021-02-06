@@ -57,6 +57,7 @@ Route::group(['middleware' => 'auth'], function() {
 });
 
 Route::get('/parser', [\App\Http\Controllers\ParserController::class, 'index']);
+
 Route::get('/auth/vk/redirect', [\App\Http\Controllers\SocialVkController::class, 'redirect'])
 	->name('vk.redirect');
 Route::get('/auth/vk/callback', [\App\Http\Controllers\SocialVkController::class, 'callback'])
